@@ -4,7 +4,7 @@ const setUpGrid = function () {
     const positions =
         [3,4,5,2,3,4,5,6,1,2,3,4,5,6,7,1,2,3,4,5,6,7,1,2,3,4,5,6,7,2,3,4,5,6,3,4,5];
 
-    for (i=0; i<divsOfButtons.length;i++){
+    for (let i=0; i<divsOfButtons.length;i++){
         let btn = document.getElementById(''+(i+1));
         if (i===2 || i===7 || i===14 || i===21 || i===28 || i===33 || i===36){
             btn.style.border ='black solid 1px';
@@ -15,7 +15,8 @@ const setUpGrid = function () {
         if (!(i===22 || i===28 ||i===29 || i===33 || i===34 || i===35 || i===36)){
             btn.style.borderBottom = 'none';
         }
-
+        btn.style.backgroundImage = "url('figure.svg')";
+        btn.style.backgroundSize = "contain"
         if (i<3) {
             divsOfButtons[i].style.gridRow = '1';
         }
