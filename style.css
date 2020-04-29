@@ -23,7 +23,7 @@ section {
     justify-content: space-around;
 }
 .intro h1{
-    font-size: 50px;
+    font-size: 10vh;
 }
 
 .intro button{
@@ -47,11 +47,21 @@ section {
     display: grid;
     grid-template-columns: repeat(7,1fr);
     grid-template-rows: repeat(7,1fr);
-    grid-column-gap: 0;
+    /*grid-column-gap: 0;*/
+}
+.score{
+    position: absolute;
+    width: 20vh;
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .grid button{
     cursor: pointer;
+    display: block;
     width: 13vh;
     height: 13vh;
     background: #e3eaa7 no-repeat center;
@@ -67,4 +77,5 @@ div.fadeIn {
     opacity: 1;
     pointer-events: all;
 }
+
 

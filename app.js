@@ -6,6 +6,7 @@ const setUpGrid = function () {
 
     for (let i = 0; i < divsOfButtons.length; i++) {
         let btn = document.getElementById('' + (i + 1));
+        btn.textContent = '';
         if (i === 2 || i === 7 || i === 14 || i === 21 || i === 28 || i === 33 || i === 36) {
             btn.style.border = 'black solid 1px';
         } else {
