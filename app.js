@@ -1,3 +1,84 @@
+const setUpPage = function () {
+    const widthScale = ()=>{
+        document.querySelector('.intro h1').style.fontSize = '10vw';
+        document.querySelector('.intro button').style.width = '25vw';
+        document.querySelector('.intro button').style.height = '15vw';
+        document.querySelector('.intro button').style.fontSize = '4vw';
+        document.querySelector('.grid').style.height = '91vw'
+        document.querySelector('.grid').style.width = '91vw'
+        let buttons = document.querySelectorAll('.grid button');
+        for (let btn of buttons){
+            btn.style.height = '13vw';
+            btn.style.width = '13vw';
+        }
+        document.querySelector('.win').style.fontSize = '7vw';
+        document.querySelector('.win').style.width = '90vw';
+        document.querySelector('.win').style.height = '50vw';
+        buttons = document.querySelectorAll('.win button');
+        for (let btn of buttons){
+            btn.style.width = '23vw';
+            btn.style.height = '10vw';
+            btn.style.fontSize = '4vw';
+        }
+
+        document.querySelector('.lose').style.fontSize = '7vw';
+        document.querySelector('.lose').style.width = '90vw';
+        document.querySelector('.lose').style.height = '50vw';
+        buttons = document.querySelectorAll('.lose button');
+        for (let btn of buttons){
+            btn.style.width = '23vw';
+            btn.style.height = '10vw';
+            btn.style.fontSize = '4vw';
+        }
+
+    }
+
+    const heightScale = () => {
+        document.querySelector('.intro h1').style.fontSize = '10vh';
+        document.querySelector('.intro button').style.width = '20vh';
+        document.querySelector('.intro button').style.height = '10vh';
+        document.querySelector('.intro button').style.fontSize = '2.5vh';
+        document.querySelector('.grid').style.height = '91vh'
+        document.querySelector('.grid').style.width = '91vh'
+        let buttons = document.querySelectorAll('.grid button');
+        for (let btn of buttons){
+            btn.style.height = '13vh';
+            btn.style.width = '13vh';
+        }
+        document.querySelector('.win').style.fontSize = '7vh';
+        document.querySelector('.win').style.width = '90vh';
+        document.querySelector('.win').style.height = '50vh';
+        buttons = document.querySelectorAll('.win button');
+        for (let btn of buttons){
+            btn.style.width = '23vh';
+            btn.style.height = '10vh';
+            btn.style.fontSize = '4vh';
+        }
+
+        document.querySelector('.lose').style.fontSize = '7vh';
+        document.querySelector('.lose').style.width = '90vh';
+        document.querySelector('.lose').style.height = '50vh';
+        buttons = document.querySelectorAll('.lose button');
+        for (let btn of buttons){
+            btn.style.width = '23vh';
+            btn.style.height = '10vh';
+            btn.style.fontSize = '4vh';
+        }
+    }
+    if(window.innerWidth < window.innerHeight){
+        widthScale();
+    }else {
+        heightScale();
+    }
+    window.addEventListener('resize', () => {
+        if(window.innerWidth < window.innerHeight){
+            widthScale();
+        }else{
+            heightScale();
+        }
+    })
+}
+
 const setUpGrid = function () {
     const gameScreen = document.querySelector('.grid');
     const divsOfButtons = gameScreen.children;
@@ -45,6 +126,7 @@ const setUpGrid = function () {
         divsOfButtons[i].style.gridColumn = positions[i].toString();
     }
 }
+
 const game = function () {
     let move = []
     let grid =
@@ -56,19 +138,227 @@ const game = function () {
         [1, 1, 1, 1, 1],
         [1, 1, 1]]
     console.log(grid);
-    let numberOfPieces = 36;
+
+    const winningScore = 35;
+    let score = 0;
+    const scoreDisplay = document.querySelector('.score h2');
+
     const startGame = () => {
         const playBtn = document.querySelector('.intro button');
         const introScreen = document.querySelector('.intro');
         const gameScreen = document.querySelector('.grid');
+        const scoreScreen = document.querySelector('.score');
+        const restart = document.querySelector('.restart');
 
         playBtn.addEventListener('click', () => {
             introScreen.classList.add('fadeOut');
             gameScreen.classList.add('fadeIn');
+            scoreScreen.classList.add('fadeIn');
+            restart.classList.add('fadeIn');
         });
+
     };
 
+    const updateScore = () => {
+        scoreDisplay.textContent = 'Score:'+score;
+    }
+
+    const restart = () => {
+        const restartBtn = document.querySelector('.restart button');
+        restartBtn.addEventListener('click',()=>{
+            move = [];
+            grid =
+                [[-1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1, 1, 1],
+                [1, 1, 1, 1, 1],
+                [1, 1, 1]];
+            score = 0;
+            updateScore();
+            for (let i = 0; i < 37; i++) {
+                let btn = document.getElementById('' + (i + 1));
+                if (i !== 0) {
+                    btn.style.backgroundImage = "url('assets/figure.svg')";
+                    btn.style.backgroundSize = "contain";
+                }else {
+                    btn.style.backgroundImage = 'none';
+                }
+            }
+
+        })
+    }
+
+    const checkWin = () => {
+        return score === winningScore;
+
+    }
+
+    const haveMoves = () =>{
+        const buttons = document.querySelectorAll('.grid button');
+        const ocuppied = [];
+        for (let btn of buttons){
+            if (btn.style.backgroundImage !== 'none'){
+                ocuppied.push(btn);
+            }
+        }
+        for (let btn of ocuppied){
+            let row = parseInt(btn.parentElement.style.gridColumn.split(' ')[0])-1;
+            if (row === 0){
+                for (let i = 1; i < 4;i++){
+                    if (legalMove([btn.id,i])){
+                        return true;
+                    }
+                }
+                for (let i = 9; i < 16 ; i++) {
+                    if (legalMove([btn.id,i])){
+                        return true;
+                    }
+                }
+            }
+            if (row === 1) {
+                for (let i = 4; i < 9; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 16; i < 23; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+            if (row === 2) {
+                for (let i = 9; i < 16; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 1; i < 4; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 23; i < 30; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+            if (row === 3) {
+                for (let i = 16; i < 23; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 4; i < 9; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 30; i < 35; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+            if (row === 4) {
+                for (let i = 23; i < 30; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 9; i < 16; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 35; i < 38; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+            if (row === 5) {
+                for (let i = 30; i < 35; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 16; i < 23; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+            if (row === 6) {
+                for (let i = 35; i < 38; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+                for (let i = 23; i < 30; i++) {
+                    if (legalMove([btn.id, i])) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    const end = () => {
+        const introScreen = document.querySelector('.intro');
+        const gameScreen = document.querySelector('.grid');
+        const scoreScreen = document.querySelector('.score');
+        const restartBtn = document.querySelector('.restart');
+        const winScreen = document.querySelector('.win');
+        const playAgain = document.getElementById('playAgain');
+        const exitW = document.getElementById('exitW');
+        const loseScreen = document.querySelector('.lose');
+        const tryAgain = document.getElementById('tryAgain');
+        const exitL = document.getElementById('exitL');
+
+        playAgain.addEventListener('click',()=>{
+            alert('button');
+            restart();
+            winScreen.classList.add('fadeOut');
+            gameScreen.classList.add('fadeIn');
+            scoreScreen.classList.add('fadeIn');
+            restartBtn.classList.add('fadeIn');
+        });
+        exitW.addEventListener('click',()=>{
+            restart();
+            loseScreen.classList.add('fadeOut');
+            gameScreen.classList.add('fadeOut');
+            scoreScreen.classList.add('fadeOut');
+            restartBtn.classList.add('fadeOut');
+            introScreen.classList.add('fadeIn');
+        });
+        tryAgain.addEventListener('click',() =>{
+            restart();
+            loseScreen.classList.add('fadeOut');
+            gameScreen.classList.add('fadeIn');
+            scoreScreen.classList.add('fadeIn');
+            restartBtn.classList.add('fadeIn');
+        });
+        exitL.addEventListener('click',()=>{
+            restart();
+            loseScreen.classList.add('fadeOut');
+            gameScreen.classList.add('fadeOut');
+            scoreScreen.classList.add('fadeOut');
+            restartBtn.classList.add('fadeOut');
+            introScreen.classList.add('fadeIn');
+        });
+    }
+
     for (let i = 0; i < 37; i++) {
+        const gameScreen = document.querySelector('.grid');
+        const scoreScreen = document.querySelector('.score');
+        const restartBtn = document.querySelector('.restart');
+        const winScreen = document.querySelector('.win');
+        const loseScreen = document.querySelector('.lose');
         let btn = document.getElementById('' + (i + 1));
         btn.addEventListener('click', function () {
             if (move.length === 0) {
@@ -83,18 +373,21 @@ const game = function () {
                 move[1] = parseInt(this.id);
                 this.style.backgroundColor = '#808651';
                 console.log(move);
-            } /*else {
-                for (let j of move){
-                    console.log(j);
-                   let butt = document.getElementById('' + j);
-                   butt.style.backgroundColor = '#e3eaa7';
-                }
-                move = [];
-            }*/
+            }
             if (move.length === 2) {
                 if (legalMove(move)){
                     makeMove(move);
                     move = [];
+                    if (!haveMoves()){
+                        gameScreen.classList.add('end');
+                        scoreScreen.classList.add('end');
+                        restartBtn.classList.add('end');
+                        if (checkWin()){
+                            winScreen.classList.add('fadeIn');
+                        }else{
+                            loseScreen.classList.add('fadeIn');
+                        }
+                    }
                 }else {
                     //Deselect buttons
                     for (let j of move) {
@@ -152,12 +445,20 @@ const game = function () {
             let butt = document.getElementById('' + j);
             butt.style.backgroundColor = '#e3eaa7';
         }
+        score++;
+        updateScore();
     }
 
     const jumpedPiece = (move) => {
         const from = cords(move[0]);
         const to = cords(move[1]);
+        const fromCol = parseInt(document.getElementById(move[0]).parentElement.style.gridColumn.split(' ')[0]);
+        const toCol = parseInt(document.getElementById(move[1]).parentElement.style.gridColumn.split(' ')[0]);
+
         if ((from[0] !== to[0]) && (from[0]-to[0] === -2)){
+            if (fromCol!== toCol){
+                return [false,[-1,-1]];
+            }
             if (from[0] === 0 || from[0] === 1){
                 if (hasPiece(from[0]+1,from[1]+1)){
                     return [true,[from[0]+1,from[1]+1]];
@@ -175,6 +476,9 @@ const game = function () {
                 return [false,[-1,-1]];
             }
         }else if ((from[0] !== to[0]) && (from[0]-to[0] === 2)){
+            if (fromCol!== toCol){
+                return [false,[-1,-1]];
+            }
             if (from[0] === 6 || from[0] === 5){
                 if (hasPiece(from[0]-1,from[1]+1)){
                     return [true,[from[0]-1,from[1]+1]];
@@ -212,10 +516,14 @@ const game = function () {
         if (hasPiece(cords(move[1])[0],cords(move[1])[1])){
             return false;
         }
+        //Check if we jump over a piece
         return jumpedPiece(move)[0];
     };
 
     startGame();
+    restart();
+    end();
 }
+setUpPage();
 setUpGrid();
 game();
