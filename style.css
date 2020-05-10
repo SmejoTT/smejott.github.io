@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body{
     height: 100%;
     width: 100%;
@@ -34,10 +35,14 @@ section {
     width: 20vh;
     height: 10vh;
     background: #e3eaa7;
-    border: 2px  black solid;
+    border: 1.5px  black solid;
     font-size: 2.5vh;
     border-radius: 5px;
+    transition: 0.3s;
+}
 
+.intro button:hover{
+    background-color: #c2c98e;
 }
 
 .grid{
@@ -70,7 +75,8 @@ section {
     position: absolute;
     top: 5vh;
     width: 20vh;
-    font-size: 3vh;
+    font-weight: bold;
+    font-size: 4vh;
     background: #e3eaa7;
 }
 
@@ -85,7 +91,10 @@ section {
     font-size: 4vh;
     font-weight: bolder;
     background: #e3eaa7;
-
+    transition: 0.3s;
+}
+.restart:hover{
+    background-color: #c2c98e;
 }
 
 .restart button{
@@ -99,7 +108,11 @@ section {
     font-weight: bold;
     background: #e3eaa7;
     cursor: pointer;
+    transition: 0.3s;
+}
 
+.restart button:hover{
+    background-color: #c2c98e;
 }
 
 .win {
@@ -118,26 +131,29 @@ section {
     background: #e3eaa7;
     border: black 2px solid;
     border-radius: 5px;
-    padding: 40px;
 }
 .win h2{
-    padding: 25px;
+    padding: 3.46vh 3.46vh 0;
 }
 
-.win buttons{
+.win options{
     flex-direction: row;
 }
 .win button{
-    background: #D3D3D3;
+    background: #d5e1df;
     border-radius: 5px;
     border: black 1px solid;
     width: 23vh;
     height: 10vh;
     font-size: 4vh;
     cursor: pointer;
+    transition: 0.3s;
+}
+.win button:hover{
+    background-color: #c2cdcb;
 }
 
-.lose {
+.lose{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -153,23 +169,26 @@ section {
     background: #e3eaa7;
     border: black 2px solid;
     border-radius: 5px;
-    padding: 40px;
 }
 .lose h2{
-    padding: 25px;
+    padding: 3.46vh 3.46vh 0;
 }
 
-.lose buttons{
+.lose options{
     flex-direction: row;
 }
 .lose button{
-    background: #D3D3D3;
+    background: #d5e1df;
     border-radius: 5px;
     border: black 1px solid;
     width: 23vh;
     height: 10vh;
     font-size: 4vh;
     cursor: pointer;
+    transition: 0.3s;
+}
+.lose button:hover{
+    background-color: #c2cdcb;
 }
 
 

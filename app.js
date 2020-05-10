@@ -140,7 +140,7 @@ const game = function () {
 
     const winningScore = 35;
     let score = 0;
-    const scoreDisplay = document.querySelector('.score h2');
+    const scoreDisplay = document.querySelector('.score');
 
     const startGame = () => {
         const playBtn = document.querySelector('.intro button');
@@ -154,6 +154,7 @@ const game = function () {
             gameScreen.classList.add('fadeIn');
             scoreScreen.classList.add('fadeIn');
             restart.classList.add('fadeIn');
+
         });
 
     };
