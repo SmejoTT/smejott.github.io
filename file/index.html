@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="file" id="input" multiple>
+    <button type="button" id="button">Convert and Download</button>
+    <script>
+        function download(filename, text) {
+            let pom = document.createElement('a');
+            pom.setAttribute('href', 'data:application/xml;charset=utf-8,' + encodeURIComponent(text));
+            pom.setAttribute('download', filename);
+
+            if (document.createEvent) {
+                let event = document.createEvent('MouseEvents');
+                event.initEvent('click', true, true);
+                pom.dispatchEvent(event);
+            }
+            else {
+                pom.click();
+            }
+        }
+        let fileList;
+        const inputElement = document.getElementById("input");
+
+        inputElement.addEventListener("change", handleFiles, false);
+        function handleFiles() {
+            fileList = this.files;
+        }
+        document.getElementById('button').addEventListener('click', async function() {
+            for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
+                const file = fileList[i];
+                const text = await file.text();
+                const convertedText = text.replace(/  +/g, ',');
+                const fileName = file.name.split('.')[0] + '.csv';
+                download(fileName, convertedText);
+            }
+        });
+    </script>
+</body>
+</html>
