@@ -33,8 +33,8 @@
             for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
                 const file = fileList[i];
                 const text = await file.text();
-                const convertedText = text.replace(/  +/g, ',');
-                const fileName = file.name.split('.')[0] + '.csv';
+                const convertedText = text.replace(/  +/g, '\t');
+                const fileName = file.name.split('.')[0] + '.tsv';
                 download(fileName, convertedText);
             }
         });
